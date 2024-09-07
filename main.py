@@ -38,7 +38,7 @@ def gerar_relatorio_atendimento_gratuito(caminho_planilha_fisioterapia, caminho_
     
     return df_relatorio
 
-def enviar_email_com_anexo(destinatario, assunto, corpo_email, caminho_anexo):
+def enviar_email_com_anexo(destinatario, destinatario2, assunto, corpo_email, caminho_anexo):
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -50,6 +50,7 @@ def enviar_email_com_anexo(destinatario, assunto, corpo_email, caminho_anexo):
     msg = MIMEMultipart()
     msg['From'] = remetente
     msg['To'] = destinatario
+    msg['To'] = destinatario2
     msg['Subject'] = assunto
 
     msg.attach(MIMEText(corpo_email, 'plain'))
@@ -80,6 +81,7 @@ if __name__ == "__main__":
     caminho_planilha_clinica = config.get('paths', 'caminho_planilha_clinica')
     caminho_relatorio = config.get('paths', 'caminho_relatorio')
     destinatario = config.get('paths', 'destinatario')
+    destinatario2 = config.get('paths', 'destinatario2')
     
     relatorio = gerar_relatorio_atendimento_gratuito(caminho_planilha_fisioterapia, caminho_planilha_clinica)
     
@@ -88,4 +90,4 @@ if __name__ == "__main__":
     assunto = 'Relatório de Pacientes Atendidos Gratuitamente'
     corpo_email = 'Segue em anexo o relatório de pacientes que receberam atendimento gratuito.'
     
-    enviar_email_com_anexo(destinatario, assunto, corpo_email, caminho_relatorio)
+    enviar_email_com_anexo(destinatario, destinatario2, assunto, corpo_email, caminho_relatorio)
